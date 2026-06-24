@@ -30,3 +30,5 @@ app.use("/api/notes",notesRoutes);
 app.listen(5001,()=>{
     console.log("Listening on port 5001");
 }); 
+
+// mongodb+srv://scribbler_db_user:aYU4rPXFIicnovLr@cluster0.butm3im.mongodb.net/?appName=Cluster0
