@@ -1,22 +1,14 @@
 import express from "express";
+import { createNote, deleteNote, getAllNotes, updateNote } from "../controllers/notesController.js";
 
 const router = express.Router();
 
-router.get("/",(req,res)=>{
-    res.status(200).send("Heyy mahnn you got all your notes , happyyy");  // If you get a particular request from the specific endpoint then it will respond 
-    //                                            back with the particular reply (created very first api)
-});
+router.get("/",getAllNotes);
 
-router.post("/",(req,res)=>{
-    res.status(201).json({message:"note created successfully"});
-});
+router.post("/",createNote);
 
-router.put("/:id",(req,res)=>{      // after / you can give the remaining endpoint routes
-    res.status(200).json({message:"note updated successfully"});
-});
+router.put("/:id",updateNote);
 
-router.delete("/:id",(req,res)=>{
-    res.status(200).json({message:"note deleted successfully"});
-});
+router.delete("/:id",deleteNote);
 
 export default router;
