@@ -1,9 +1,16 @@
 import express from "express";
 import notesRoutes from "./routes/notesRoutes.js"
+import { connectDB } from "./config/db.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5001
 
-app.use("/api/notes",notesRoutes);
+connectDB();
+
+app.use("/api/notes", notesRoutes);
 
 //route
 // app.get("/api/notes",(req,res)=>{
@@ -27,6 +34,6 @@ app.use("/api/notes",notesRoutes);
 //     res.status(200).json({message:"note deleted successfully"});
 // });
 
-app.listen(5001,()=>{
-    console.log("Listening on port 5001");
+app.listen(PORT, () => {
+    console.log("Listening on port: ",PORT);
 }); 
