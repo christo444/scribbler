@@ -5,13 +5,24 @@ import Note from "../models/Note.js";
 // };
 //.........................
 
-export async function getAllNotes(req,res){
+export async function getAllNotes(_,res){   //we can use _ if we are note using request
     // res.status(200).send("Heyy mahnn you got all your notes , happyyy");
     try {
-        const notes = await Note.find();  //gets all the notes from the dtabase 
+        const notes = await Note.find().sort({createdAt: -1});  //sorts the notes in descending order , newest first 
         res.status(200).json(notes);
     } catch (error) {
         console.error("error in getallnotes method",error);
+        res.status(500).json({message:"Internal server error"});
+    }
+}
+
+export async function getNotebyId(req,res){
+    try {
+        const note = await Note.findById(req.params.id);
+        if(!note) return res.status(404).json({message: "Note not found"});
+        res.json(note);
+    } catch (error) {
+        console.error("error in getnotebyid method",error);
         res.status(500).json({message:"Internal server error"});
     }
 }
@@ -44,5 +55,12 @@ export async function updateNote(req,res){
 }
 
 export async function deleteNote(req,res){
-    res.status(200).json({message:"note deleted successfully"});
+    // res.status(200).json({message:"note deleted successfully"});
+    try {
+        const deletedNote = await Note.findByIdAndDelete(req.params.id);
+        if (!deletedNote) return res.satus(404).json({message:"Note not found"});
+        res.json({message:"Note deletd successfully"}) // if you dont specify a status it will consider 200 automatically
+    } catch (error) {
+        
+    }
 }

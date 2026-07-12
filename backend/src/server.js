@@ -10,7 +10,12 @@ const PORT = process.env.PORT || 5001
 
 connectDB();
 
-app.use(express.json());  //middleware for getting data from backend or something...
+app.use(express.json());  //middleware will parse json bodeis,will allow us to get req.body
+
+// app.use((req,res,next)=>{
+//     console.log(`Req method is ${req.method} & req URL is ${req.url}`);
+//     next();
+// });  //middleware acts between request and respose it console.logs the text white the get method is called
 
 app.use("/api/notes", notesRoutes);
 
