@@ -2,6 +2,7 @@ import express from "express";
 import notesRoutes from "./routes/notesRoutes.js"
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
+import rateLimiter from "./middleware/rateLimiter.js";
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 5001
 connectDB();
 
 app.use(express.json());  //middleware will parse json bodeis,will allow us to get req.body
+app.use(rateLimiter);  //middleware will limit the number of requests to the server from a particular user in a given time frame
 
 // app.use((req,res,next)=>{
 //     console.log(`Req method is ${req.method} & req URL is ${req.url}`);
