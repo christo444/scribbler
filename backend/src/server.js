@@ -9,8 +9,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001
 
-connectDB();
-
 app.use(express.json());  //middleware will parse json bodeis,will allow us to get req.body
 app.use(rateLimiter);  //middleware will limit the number of requests to the server from a particular user in a given time frame
 
@@ -43,6 +41,8 @@ app.use("/api/notes", notesRoutes);
 //     res.status(200).json({message:"note deleted successfully"});
 // });
 
-app.listen(PORT, () => {
-    console.log("Listening on port: ",PORT);
-}); 
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("Listening on port: ", PORT);
+    });
+});
