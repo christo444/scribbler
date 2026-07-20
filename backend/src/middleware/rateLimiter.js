@@ -3,12 +3,11 @@ import rateLimit from "../config/upstash.js";
 
 const rateLimiter = async (req, res, next) => {
     try {
-        const { success } = await rateLimit.limit("my-limit-key")
-        //also this ratelimiting function can be done for idivudual users as well as for
-        //individual ip addressess
+        const ip = req.headers["x-forwarded-for"] || req.ip || "127.0.0.1";
+        const { success } = await rateLimit.limit(ip)
+        
         if (!success) {
             return res.status(429).json({ message: "Too many requests try again later" })
-
         }
         next();
     } catch (error) {
