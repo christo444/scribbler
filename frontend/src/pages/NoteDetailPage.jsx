@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
-import axios from 'axios';
+import api from '../lib/axios';
 import toast from 'react-hot-toast';
 
 const NoteDetailPage = () => {
@@ -15,7 +15,7 @@ const NoteDetailPage = () => {
   useEffect(() => {
     const fetchNote = async () => {
       try {
-        const res = await axios.get(`http://localhost:5001/api/notes/${id}`);
+        const res = await api.get(`/notes/${id}`);
         setTitle(res.data.title);
         setContent(res.data.content);
       } catch (error) {
@@ -41,7 +41,7 @@ const NoteDetailPage = () => {
     setIsSubmitting(true);
     
     try {
-      await axios.put(`http://localhost:5001/api/notes/${id}`, { title, content });
+      await api.put(`/notes/${id}`, { title, content });
       toast.success("Note updated successfully");
       navigate("/");
     } catch (error) {
