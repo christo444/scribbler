@@ -1,7 +1,8 @@
 import express from "express";
-import notesRoutes from "./routes/notesRoutes.js"
-import { connectDB } from "./config/db.js";
+import cors from "cors"
 import dotenv from "dotenv";
+import notesRoutes from "./routes/notesRoutes.js";
+import { connectDB } from "./config/db.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 
 dotenv.config();
@@ -11,7 +12,9 @@ const PORT = process.env.PORT || 5001
 
 app.use(express.json());  //middleware will parse json bodeis,will allow us to get req.body
 app.use(rateLimiter);  //middleware will limit the number of requests to the server from a particular user in a given time frame
-
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 // app.use((req,res,next)=>{
 //     console.log(`Req method is ${req.method} & req URL is ${req.url}`);
 //     next();
